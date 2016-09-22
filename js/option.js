@@ -8,14 +8,10 @@ preload: function(){
 	
 	},
 	create: function(){
+		game.add.tileSprite(0,0,450,750,'bg2');
 		//------------put in the menu ------------------------
 		//-------------add and play music---------------------------------
-		this.music = game.add.audio('music');
-		this.music.fadeIn(500);
-		this.music.fadeOut(500);
-		this.music.loop = true;
 		
-		this.music.play();
 		//------------------------------------------------------------
 
 		//background   (can be changed later) ------------------
@@ -26,20 +22,31 @@ preload: function(){
 
 
 		//-----------mute and play music-----------------------------------------
+
 		mutemusic = game.add.text(game.width / 2, 250, "MUTE MUSIC", {font: '40px Arial', fill: '#ffffff' });
 		mutemusic.anchor.setTo(0.5,0.5);
 		mutemusic.inputEnabled = true;
-		mutemusic.visible = true;
-
+		mutemusic.visible = false;
+		//^^
+		
 		mutemusic.events.onInputOver.add(this.over, this);
 		mutemusic.events.onInputOut.add(this.out, this);
 		mutemusic.events.onInputDown.add(this.down, this);
 		mutemusic.events.onInputUp.add(this.mutemusic, this);
-
+		
 		playmusic = game.add.text(game.width / 2, 250, "PLAY MUSIC", {font: '40px Arial', fill: '#ffffff' });
 		playmusic.anchor.setTo(0.5,0.5);
 		playmusic.inputEnabled = true;
 		playmusic.visible = false;
+		//^^
+		
+		if(bgmusic.mute === true){
+			mutemusic.visible = false;
+			playmusic.visible = true;
+		} else{
+			playmusic.visible = false;
+			mutemusic.visible = true;
+		}
 
 		playmusic.events.onInputOver.add(this.over, this);
 		playmusic.events.onInputOut.add(this.out, this);
@@ -100,38 +107,43 @@ preload: function(){
 	},
 
 	mutemusic: function(mutemusic) {
-		game.sound.mute = true;
+		bgmusic.mute = true;
 		mutemusic.visible = false;
 		playmusic.visible = true;
-		playmusic.events.onInputUp.add(this.playmusic, this);
+		/* playmusic.events.onInputUp.add(this.playmusic, this); */
 	},
 
 	playmusic: function(playmusic) {
-		game.sound.mute = false;
+		bgmusic.mute = false;
 		playmusic.visible = false;
 		mutemusic.visible = true;
-		mutemusic.events.onInputUp.add(this.mute, this);
+		/* mutemusic.events.onInputUp.add(this.mutemusic, this); */
 	},
 
 	muteeffect: function(muteeffect) {
 		// this line for mute effect (no effect yet)
+		
 		muteeffect.visible = false;
 		playeffect.visible = true;
-		playeffect.events.onInputUp.add(this.playeffect, this);
+		/* playeffect.events.onInputUp.add(this.playeffect, this); */
 	},
 
 	playeffect: function(playeffect) {
 		//this line for play effect (no effect yet)
-		game.sound.mute = false;
+		
 		playeffect.visible = false;
 		muteeffect.visible = true;
-		muteeffect.events.onInputUp.add(this.muteeffect, this);
+		/* muteeffect.events.onInputUp.add(this.muteeffect, this); */
 	},
-
-
 	update: function() {
 		
-		
+		// if(bgmusic.mute == true){
+		// 	mutemusic.visible = false;
+		// 	playmusic.visible = true;
+		// 	} else if(bgmusic.mute == false){
+		// 		mutemusic.visible = true;
+		// 		playmusic.visible = false;
+		// 	}
 		
 },
 
