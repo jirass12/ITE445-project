@@ -4,13 +4,13 @@ var levelSelectState = {
 		
 	},
 	create: function(){
-		var lvlSelBg = game.stage.backgroundColor = '#000000';
+	
+		var lvlSelBg = game.add.tileSprite(0,0,450,750,'bg3');
+		filter = game.add.filter('Fire', 450, 750);
+		filter.alpha = 0.0;
+		lvlSelBg.filters = [filter];
 		
-	//	filter = game.add.filter('Fire', 450, 750);
-	//	filter.alpha = 1.0;
-	//	lvlSelBg.filters = [filter];
 		
-		game.add.tileSprite(0,0,450,750,'bg3');
 		var back = game.add.text(game.width / 2, 650, "BACK", {font: '30px Arial', fill: '#ffffff'});
 		back.anchor.setTo(0.5,0.5);		
 		back.inputEnabled = true;
@@ -63,14 +63,14 @@ var levelSelectState = {
 	},
 	
 	imageover: function(item){
-		this.add.tween(item.scale).to({x:1.3,y:1.3},900, Phaser.Easing.Elastic.Out, true,1,0,true);
+		this.add.tween(item.scale).to({x:1.3,y:1.3},300, null, true,1,0,false);
 		item.tint = 0xffffff;
 		
 	},
 
 	imageout: function(item) {
-	item.scale.setTo(1,1);
-	item.tint = 0x000000;
+		this.add.tween(item.scale).to({x:1.0,y:1.0},300,null,true,1,0,false);
+		item.tint = 0x000000;
 	},
 
 	imagedown: function(item) {
@@ -91,6 +91,6 @@ var levelSelectState = {
 		game.state.start('menu');
 	},
 	update: function(){
-		//filter.update();
+		filter.update();
 	}
 }

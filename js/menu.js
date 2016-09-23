@@ -3,8 +3,8 @@ var OptionSelection;
 var title;
 var menubg;
 var menuE;
+
 var menuState = {
-	
 	
 //temporary preload
 	preload: function(){
@@ -100,6 +100,7 @@ var menuState = {
 //----
 	OptionListener: function(){
 		game.state.start('option');	
+		
 	},
 	lvlListener: function(){
 		game.state.start('levelSelect');
