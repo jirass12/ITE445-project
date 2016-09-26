@@ -1,8 +1,10 @@
-var cursors;
-var OptionSelection;
-var title;
+//var cursors;
+//var OptionSelection;
+//var title;
 var menubg;
+var camtween;
 var menuE;
+//var menuStage = new Stage(Phaser.Game);
 
 var menuState = {
 	
@@ -12,9 +14,12 @@ var menuState = {
 	},
 	
 	create: function(){
+		
+		
 		menubg = game.add.tileSprite(0,0,1734.635,750,'bg');
 		menubg.animations.add('loopBg',[0,1,2,3,4,5,6,7]);
 		menubg.animations.play('loopBg',8,true);
+		
 		
 		game.world.setBounds(0,0,1734.625,750);
 		cursors = game.input.keyboard.createCursorKeys();
@@ -43,7 +48,7 @@ var menuState = {
 		OptionSelection.events.onInputDown.add(this.down, this);
 		OptionSelection.events.onInputUp.add(this.OptionListener, this);
 		
-		creditsSelection = game.add.text(1+ game.camera.width/2, game.camera.height *4/5,'Credits',{font: '50px Arial', fill: '#ffffff'});
+		creditsSelection = game.add.text(1+ game.camera.width/2, 1 + game.camera.height *4/5,'Credits',{font: '50px Arial', fill: '#ffffff'});
 		creditsSelection.anchor.setTo(0.5);
 		creditsSelection.inputEnabled = true;
 		creditsSelection.events.onInputOver.add(this.over, this);
@@ -57,18 +62,20 @@ var menuState = {
 		menuE.add(levelSelectSelection);
 		menuE.add(bgplayer);
 		menuE.add(title);
-		//menuE.add(camera); this shit doesnt work :D
-		game.add.tween(menuE).to({x:1284.625},10000,null,true,0,-1,true);
-		game.add.tween(game.camera).to({x:1284.625},10000,null,true,0,-1,true);
-	},
+		//menuE.add(game.camera);
+		menuE.fixedToCamera = true;
+		camtween = game.add.tween(game.camera).to({x:1284.625},20000,null,true,0,-1,true);
+		//replaced 'menuE' with 'game.camera' to reduce lag
+		//added 'menuE' to fixedToCamera = true so it sticks
+		//game.add.text(game.camera.width/2,game.camera.height/2, game.Stage.getChildAt(0));
+		
+		},
 	over: function(item) {
 		item.fill = '#FFFF66';
 	},
-
 	out: function(item) {
 		item.fill = '#FFFFFF';
 	},
-
 	down: function(item) {
 		item.fill = '#FFCC33';
 	},
@@ -77,29 +84,19 @@ var menuState = {
 	//game.add.tween(stars.position).to( {y: 100}, 2200, Phaser.Easing.Back.InOut, true, 2000, 20, true).loop(true);		
 	/* 	 if(cursors.left.isDown){
 				if(game.camera.x >= 3 && game.camera.x <=1203){
-					OptionSelection.position.x -=3;
-					title.position.x -=3;
-					levelSelectSelection.position.x -=3;
-					creditsSelection.position.x -=3;
-					bgplayer.position.x -=3;
-					 game.camera.x -= 3;
+					OptionSelection.position.x -=3;title.position.x -=3;levelSelectSelection.position.x -=3;creditsSelection.position.x -=3;bgplayer.position.x -=3;game.camera.x -= 3;
 				}
-				
-		}else if (cursors.right.isDown){
-			
+		}else if (cursors.right.isDown){		
 				if(game.camera.x >= 0 && game.camera.x <=1200){
-					OptionSelection.position.x += 3;
-					title.position.x +=3;	
-					levelSelectSelection.position.x +=3;
-					creditsSelection.position.x +=3;
-					bgplayer.position.x +=3;
-					game.camera.x += 3;
+					OptionSelection.position.x += 3;title.position.x +=3;levelSelectSelection.position.x +=3;creditsSelection.position.x +=3;bgplayer.position.x +=3;game.camera.x += 3;
 				}
 		} */
 },
 //----
 	OptionListener: function(){
+		
 		game.state.start('option');	
+		//syntax for game.state.start(key, clearWorld, clearCache, parameter)
 		
 	},
 	lvlListener: function(){
@@ -108,6 +105,8 @@ var menuState = {
 	creditsListener: function(){
 		game.state.start('credits');
 	},
+
+
 	render: function() {
 
    // game.debug.text("Time until event: " + game.time.events.duration.toFixed(0), 100, 100);

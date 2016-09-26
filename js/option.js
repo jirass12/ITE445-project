@@ -8,7 +8,7 @@ preload: function(){
 	
 	},
 	create: function(){
-		game.add.tileSprite(0,0,450,750,'bg2');
+		game.add.tileSprite(0,0,450,750,'bg3');
 		//------------put in the menu ------------------------
 		//-------------add and play music---------------------------------
 		

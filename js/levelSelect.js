@@ -38,7 +38,7 @@ var levelSelectState = {
 		no1.events.onInputOver.add(this.imageover, this);
 		no1.events.onInputOut.add(this.imageout, this);
 		no1.events.onInputDown.add(this.imagedown, this);
-		
+		no1.events.onInputUp.add(this.lvl1Start,this);
 		
 		var no2 = game.add.sprite((game.width/2 + 100),game.height*2.5/8,'no2');
 		no2.tint = 0x000000;
@@ -64,8 +64,7 @@ var levelSelectState = {
 	
 	imageover: function(item){
 		this.add.tween(item.scale).to({x:1.3,y:1.3},300, null, true,1,0,false);
-		item.tint = 0xffffff;
-		
+		item.tint = 0xffffff
 	},
 
 	imageout: function(item) {
@@ -77,7 +76,7 @@ var levelSelectState = {
 		item.tint = 0xff0000;
 	},
 	over: function(item) {
-		item.fill = '#FFFF66';
+		item.fill = '#FFF066';
 	},
 
 	out: function(item) {
@@ -92,5 +91,8 @@ var levelSelectState = {
 	},
 	update: function(){
 		filter.update();
+	},
+	lvl1Start:function(){
+		game.state.start('playlvl1');
 	}
 }

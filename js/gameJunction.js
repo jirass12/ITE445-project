@@ -13,5 +13,7 @@ game.state.add('credits', creditsState);
 //CREDITS
 game.state.add('levelSelect', levelSelectState);
 //LVLSELECT
+game.state.add('playlvl1', playlvl1State);
+//LVL1
 
 game.state.start('boot');

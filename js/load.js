@@ -1,6 +1,7 @@
 var bgmusic;
 var lvlProgress = 0;
 var bgplayer;
+
 var loadState = {
 	
 	preload: function(){
@@ -14,7 +15,6 @@ var loadState = {
 		game.load.image('no1','assets/no1.png');
 		game.load.image('no2','assets/no2.png');
 		game.load.image('no3','assets/no3.png');
-		game.load.image('bg2','assets/bg2.jpg');
 		game.load.image('bg3','assets/lvlSelect.jpg');
 		game.load.image('door','assets/fireball2.png');
 		
@@ -28,7 +28,6 @@ var loadState = {
 		bgmusic.play();
 		bgmusic.loopFull(0.6);
 		game.state.start('menu');
-		
 		
 		
 	}

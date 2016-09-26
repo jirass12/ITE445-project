@@ -3,7 +3,7 @@ var creditsState = {
 		
 	},
 	create: function(){
-		game.add.tileSprite(0,0,450,750,'bg2');
+		game.add.tileSprite(0,0,450,750,'bg3');
 	
 		
 		var back = game.add.text(game.width / 2, 650, "BACK", {font: '30px Arial', fill: '#ffffff'});
