@@ -176,15 +176,17 @@ var playlvl1State = {
 			
 			playerblink = game.add.tween(player).to( { alpha: 0.0 }, 200, null, true, 0, 4, true);
 			//Set a TimerEvent to occur after 2 seconds
-			game.time.events.add(Phaser.Timer.SECOND * 2, this.okBody, this);
 			bullet.kill();
+			game.time.events.add(Phaser.Timer.SECOND * 2, this.okBody, this);
+			
 			invulnerable = game.time.now;
 		}	
 },
 
 	okBody: function(){
-	this.player.enableBody = true;
 	this.player.alpha = 1.0;
+	this.player.enableBody = true;
+	
 },
 	movePlayer: function(){
 
