@@ -91,15 +91,18 @@ preload: function(){
 	},
 	//change color of text and other function------
 	over: function(item) {
-		item.fill = '#FFFF66';
+		item.fill = '#FFF066';
+		item.fontSize += 5;
 	},
 
 	out: function(item) {
 		item.fill = '#FFFFFF';
+		item.fontSize -= 5;
 	},
 
 	down: function(item) {
 		item.fill = '#FFCC33';
+		item.fontSize -= 5;
 	},
 
 	back: function(back) {
@@ -107,33 +110,31 @@ preload: function(){
 	},
 
 	mutemusic: function(mutemusic) {
+		mutemusic.fontSize = 40;
 		bgmusic.mute = true;
 		mutemusic.visible = false;
 		playmusic.visible = true;
-		/* playmusic.events.onInputUp.add(this.playmusic, this); */
 	},
 
 	playmusic: function(playmusic) {
+		playmusic.fontSize = 40;
 		bgmusic.mute = false;
 		playmusic.visible = false;
 		mutemusic.visible = true;
-		/* mutemusic.events.onInputUp.add(this.mutemusic, this); */
 	},
 
 	muteeffect: function(muteeffect) {
 		// this line for mute effect (no effect yet)
-		
+		muteeffect.fontSize = 40;
 		muteeffect.visible = false;
 		playeffect.visible = true;
-		/* playeffect.events.onInputUp.add(this.playeffect, this); */
 	},
 
 	playeffect: function(playeffect) {
 		//this line for play effect (no effect yet)
-		
+		playeffect.fontSize = 40;
 		playeffect.visible = false;
 		muteeffect.visible = true;
-		/* muteeffect.events.onInputUp.add(this.muteeffect, this); */
 	},
 	update: function() {
 		

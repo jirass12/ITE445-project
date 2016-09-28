@@ -16,15 +16,17 @@ var creditsState = {
 		back.events.onInputUp.add(this.back, this);
 	},
 	over: function(item) {
-		item.fill = '#FFFF66';
+		item.fill = '#FFF066';
+		item.fontSize += 5;
 	},
 
 	out: function(item) {
 		item.fill = '#FFFFFF';
+		item.fontSize -= 5;
 	},
-
 	down: function(item) {
 		item.fill = '#FFCC33';
+		item.fontSize -= 5;
 	},
 	back: function(back) {
 		game.state.start('menu');
