@@ -112,6 +112,7 @@ preload: function(){
 	mutemusic: function(mutemusic) {
 		mutemusic.fontSize = 40;
 		bgmusic.mute = true;
+		lvl1mus.mute = true;
 		mutemusic.visible = false;
 		playmusic.visible = true;
 	},
@@ -119,6 +120,7 @@ preload: function(){
 	playmusic: function(playmusic) {
 		playmusic.fontSize = 40;
 		bgmusic.mute = false;
+		lvl1mus.mute = false;
 		playmusic.visible = false;
 		mutemusic.visible = true;
 	},

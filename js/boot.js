@@ -1,8 +1,10 @@
 var bootState = {
-//is this necessary?
-/* 	preload: function(){
+
+	preload: function(){
+		game.load.image('progressBar', 'assets/progressBar.png');
+		//load the progress bar image here
 	},
-	 */
+	 
 	create: function(){
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.renderer.renderSession.roundPixels = true;
