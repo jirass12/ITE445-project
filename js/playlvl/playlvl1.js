@@ -1,85 +1,32 @@
 var player; //created
-var hp = 5;	//created
-var orihp = hp;
-var fullHP = 5;
-var lvl1hearts;
-var invulnerable = 2500; //invulnerable for 2.5 seconds
-var isinvul = false;
-
 var bullet; //created
-var bulletdmg = 5;
-var hombullet;
-var homdmg = 0.5;
-var homstart = 90; //original is 30
-var laser; //dont forget to add blink before attack launches
-var laserDamage = 2;
-var laserStrt = 8000; //start after how many miliseconds
-var laserDur =  2000; //lasts for 2 seconds
-
-var dmg;
-
+var hp = 5;	//created
 var progressbar; 
 var progresscrop;
 var lvl1timer = 90; //90 seconds
-var oritimer = lvl1timer;
+var laser; //dont forget to add blink before attack launches
+var invulnerable = 0;
 var pause_label;
-
-var lvlstarttime;
+var lvl1hearts;
 var i;
 //^^ required Elements so far
 
-
 var text1; //temporary
-var text2; //temporary
+var text2;
 
 var playlvl1State = {
-	init: function(){
-		bgmusic.pause();
-		lvl1mus.play();
-		lvl1mus.loopFull(0.6);
-		isinvul = false;
-	},
+//UNDER CONSTRUCTION
 	create: function(){
-		hp = 5;
-		lvlstarttime = game.time.now;
 		var bg = game.add.tileSprite(0,0,450,750,'bg3');
 		this.game.world.setBounds(0,0,450,750);
 		bg.alpha = 0.4;
-		//background
-			
-		this.player = game.add.sprite(game.width/2, 550, 'player');
-		this.player.anchor.setTo(0.5);
-		this.player.animations.add('playermove',[0,1,2,3,4,5,6,7]);
-		this.player.animations.play('playermove',12,true);
-		this.player.enableBody = true;
-		game.physics.arcade.enable(this.player);
-		this.player.body.enable = true;
-		this.player.body.collideWorldBounds = true;	
-			
+
 		this.bullet = game.add.group();
 		this.bullet.enableBody = true;
 		game.physics.arcade.enable(this.bullet);
-		this.bullet.createMultiple(999, 'bullet');
-		game.time.events.loop(500, this.addbullet, this);
-		//normal bullet
-			
-		this.hombullet = game.add.group();
-		this.hombullet.enableBody = true;
-		game.physics.arcade.enable(this.hombullet);
-		
-		game.time.events.add((oritimer - homstart) * 1000, function(){
-			this.hombullet.createMultiple(999, 'hombullet',0);
-			game.time.events.loop(1500, this.addhombullet, this);
-		},this);
-		
-		this.laser = game.add.group();
-		this.laser.enableBody = true;
-		game.physics.arcade.enable(this.laser);
-		game.time.events.add(laserStrt, function(){
-			this.laser.createMultiple(999,'laser',this);
-			game.time.events.loop(laserStrt, this.addlaser, this);
-		},this);
-		
+		this.bullet.createMultiple(20, 'bullet');
+		game.time.events.loop(350, this.addbullet, this);
+
 		pause_label = game.add.text(415, game.height/45, 'II', { font: '36px Arial', fill: '#ffffff' });
 		pause_label.inputEnabled = true;
 		pause_label.events.onInputUp.add(function(){
@@ -96,6 +43,14 @@ var playlvl1State = {
 			
 			bg.tint = 0xf05239;
 		});
+		
+		progressbar = game.add.sprite(50, 50,'lvlprogress');
+		progressbar.anchor.setTo(0);
+		progresscrop = new Phaser.Rectangle(progressbar.positionX, progressbar.positionY, progressbar.width, progressbar.height);
+		var progtween = game.add.tween(progresscrop).to( { width: 0 }, lvl1timer * 1000, null, false, 0, 0, false);
+		progressbar.crop(progresscrop);
+		progtween.start();
+		
 		game.input.onDown.add(	function(event){
 		if(game.paused){	
 			//x1 x2 y1 y2 for exittomenu border;
@@ -110,12 +65,9 @@ var playlvl1State = {
 				if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
 						game.paused = false;
 						game.state.start('menu');
-						lvl1timer = oritimer;
-						hp = orihp;	
-						lvl1mus.stop();
-						bgmusic.resume(0.6);
+						hp = 5;
+						lvl1timer = 90;	
 						bg.tint = 0xffffff;
-						isinvul = false;
 				} else if(event.x > x1 && event.x < x2 && event.y > y3 && event.y < y4){
 						bg.tint = 0xffffff;
 						game.paused = false;
@@ -126,105 +78,67 @@ var playlvl1State = {
 				else{
 					
 				}
-			}	 
+		}	 
 		}, self);
-		//pause state
+	
+		this.player = game.add.sprite(game.width/2, 550, 'player');
+		this.player.anchor.setTo(0.5);
+		this.player.animations.add('playermove',[0,1,2,3,4,5,6,7]);
+		this.player.animations.play('playermove',12,true);
 		
-		progressbar = game.add.sprite(50, 50,'lvlprogress');
-		progressbar.anchor.setTo(0);
-		progresscrop = new Phaser.Rectangle(progressbar.positionX, progressbar.positionY, progressbar.width, progressbar.height);
-		var progtween = game.add.tween(progresscrop).to( { width: 0 }, lvl1timer * 1000, null, false, 0, 0, false);
-		progressbar.crop(progresscrop);
-		progtween.start();
-		//progress bar
-		
-		//player
-		
+		this.player.enableBody = true;
+		game.physics.arcade.enable(this.player);
+		this.player.body.collideWorldBounds = true;
 		this.cursor = game.input.keyboard.createCursorKeys();
-		//controls
-		
+		//text1 is temporary
 		text1 = game.add.text(game.width/2, game.height/5,hp,{font: '84px Arial', fill: '#fff000'});
 		text1.anchor.setTo(0.5);
 		text1.visible = false;
+
 		text2 = game.add.text(370, 50,lvl1timer,{font: '40px Arial', fill: '#ffffff'});
 		text2.anchor.setTo(0.5);
 		text2.visible = false;
-		//rendering OR fix
 		
 		var statsbar = game.add.sprite(game.width/2, 700, 'container2');
 		statsbar.anchor.setTo(0.5,0.5);
-		//bottom stats bar
 		
 		lvl1hearts = game.add.group();
 		for(i = 0; i< 5; i++){
 			var hearts = game.add.sprite(75 * (i+1),700,'hearts');
 			hearts.anchor.setTo(0.5,0.5);
 			hearts.animations.add('full',[0]);
-			hearts.animations.add('fulltohalf',[0,1,0,1,0,1,0,1,0,1]);
+			hearts.animations.add('fulltohalf',[0,1,0,1,0,1]);
 			hearts.animations.add('half',[1]);
-			hearts.animations.add('halftonone',[1,2,1,2,1,2,1,2,1,2]);
+			hearts.animations.add('halftonone',[1,2,1,2,1,2]);
 			hearts.animations.add('none',[2]);
-			hearts.animations.add('fulltonone',[0,2,0,2,0,2,0,2,0,2]);
+			hearts.animations.add('fulltonone',[0,2,0,2]);
 
 			hearts.animations.play('full',1,true);
 			lvl1hearts.add(hearts);
 		}
-		//hearts
 		
 		game.time.events.loop(1000, this.lvl1timer, this);
-		//timer decreasing
+
 },
 	update: function() {
+		
 		this.movePlayer();
+		game.physics.arcade.overlap(this.player, this.bullet, this.playerhp, null, this);
+		
+		if(hp <= 0){
+			game.state.start('menu');
+			hp = 5;
+			lvl1timer = 90;
+		}
 		progressbar.updateCrop();
 		//prog crop updating
 		
-		game.physics.arcade.overlap(this.player, this.bullet,this.damaged, this.addDmg1,null, this);
-		game.physics.arcade.overlap(this.player, this.hombullet, this.damaged,this.addDmg2, null, this);
-		game.physics.arcade.overlap(this.player, this.laser, this.damaged,this.addDmg3, null, this);
-		game.physics.arcade.overlap(this.laser, this.hombullet, this.killHombullet, null, this);
-		game.physics.arcade.overlap(this.laser, this.bullet, this.killBullet, null, this);
-		if(lvl1timer <= 0 ){
-			this.levelreset();
-		} else if(hp<=0){
-			this.levelreset();
-			game.state.clearCurrentState();
-			game.state.start('youdied');
-		}
-	},	
-	killBullet: function(laser,bullet){
-	bullet.kill();
-},	
-	killHombullet: function(laser,hombullet){
-	hombullet.kill();
+		if(lvl1timer <= 0){
+			game.state.start('menu');
+			lvl1timer = 90;
+			hp = 5;	
+		}	
 },
-	addDmg1: function(player,bullet){
-		dmg = bulletdmg;
-		bullet.kill();
-	},
-	addDmg2: function(player,bullet){
-		dmg = homdmg;
-		bullet.kill();
-	},
-	addDmg3: function(player,bullet){
-		dmg = laserDamage;
-		if(hp<=0){
-			bullet.enableBody = true;
-		} else{
-		bullet.enableBody = false;
-		}
-	},
-	levelreset: function(){
-		this.okBody();
-		lvl1timer = oritimer;
-		this.player.enableBody = true;
-		isinvul = false;
-		hp = fullHP;	
-		lvl1mus.stop();
-		bgmusic.resume(0.6);
-		isinvul = false;
-		game.state.start('menu');
-	},
 	lvl1timer: function() {
 		lvl1timer -= 1;
 		text2.text -= 1;
@@ -241,50 +155,37 @@ var playlvl1State = {
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
 },
-	addhombullet: function(){
-		var hombullet = this.hombullet.getFirstDead();
-		if(!hombullet) {
-			return;
-		}
-		hombullet.anchor.setTo(0.5);
-		hombullet.reset(this.player.x , 0);
-		hombullet.animations.add('homMove',[0,1,2]);
-		hombullet.animations.play('homMove',3,true);
-		
-		hombullet.body.velocity.y = 250;
-		hombullet.checkWorldBounds = true;
-		hombullet.outOfBoundsKill = true;
-	},
-	addlaser: function(){
-	var laser = this.laser.getFirstDead();
-	if(!laser){
-		return;
-	}
-	var rndX = game.rnd.pick([45,135,225,315,405])	
-	var laserAlrt = game.add.sprite(rndX,0,'alert');
-	laserAlrt.enableBody = false;
-	laserAlrt.alpha = 0.0;
-	laserAlrt.anchor.setTo(0.5,0);
-	var Ltween = game.add.tween(laserAlrt).to({alpha: 1.0},250, Phaser.Easing.Linear.None, true, 0, 3, true);
-	Ltween.onComplete.add(function(){
-		laserAlrt.kill();
-		laser.reset(rndX,650);
-		laserEff.play();
-		laser.anchor.setTo(0.5,1);
-		game.time.events.add(laserDur,function(){
-			laser.kill();
-			laserEff.stop();
-		},this);
-	},this);
 
-},	
-	noBody: function(){
-		this.player.enableBody = false;
-	},
+	playerhp: function(player,bullet) {
+		//invulnerable = game.time.now
+		if(game.time.now - invulnerable >= 2000){ //
+			this.player.enableBody = null;
+			this.player.positionY = 580;
+			
+			hp -= 0.5;
+			text1.text = hp ;
+			
+			var temporaryi = lvl1hearts.getAt(Math.floor(hp));
+			if (hp % 1 == 0){
+				temporaryi.animations.play('halftonone',3,false);
+				temporaryi.animations.currentAnim.onComplete.add(function(){temporaryi.animations.play('none',1,true)},this);
+			} else{
+				temporaryi.animations.play('fulltohalf',3,false);
+				temporaryi.animations.currentAnim.onComplete.add(function(){temporaryi.animations.play('half',1,true)},this);
+			}
+			
+			playerblink = game.add.tween(player).to( { alpha: 0.0 }, 200, null, true, 0, 4, true);
+			//Set a TimerEvent to occur after 2 seconds
+			bullet.kill();
+			game.time.events.add(Phaser.Timer.SECOND * 2, this.okBody, this);
+			
+			invulnerable = game.time.now;
+		}	
+},
+
 	okBody: function(){
 	this.player.alpha = 1.0;
 	this.player.enableBody = true;
-	isinvul = false;
 	
 },
 	movePlayer: function(){
@@ -297,96 +198,7 @@ var playlvl1State = {
 							this.player.body.velocity.x = 0;
 						}
 },
-	damaged: function(player,bullet){
-		//bullet.kill();
-		if(isinvul == true || hp<=0){
-			return;
-		}
-		isinvul = true;
-		var blinkTimes =5 ;
-		
-		player.enableBody = false;
-		var blinkPlayer =	game.add.tween(player).to({alpha:0},(invulnerable/blinkTimes)/2,Phaser.Easing.Linear.None,true,0, blinkTimes-1 ,true);
 
-		game.time.events.add(invulnerable,function(){
-			player.alpha = 1.0;
-			player.enableBody = true;
-		isinvul = false;
-			},this)
-		
-		var LheartsArr = [];
-		var Lhearts = 0;
-		var preHP = hp;
-		
-		var exception = 0;
-		
-		hp -= dmg;
-		if(hp <= 0){
-			return;
-		}
-		switch (true){
-		//we compare hp and dmg for %1==0 or not
-			case (preHP%1 == 0 && dmg%1 == 0): //5 -- 2 //fulltonone
-				for(Lhearts = 0; Lhearts<dmg; Lhearts++){
-					LheartsArr[Lhearts] = lvl1hearts.getAt(preHP-1);
-					LheartsArr[Lhearts].animations.play('fulltonone',5,false);
-					preHP -= 1;
-				}
-				break;
-				
-			case (preHP%1 == 0 && dmg%1 != 0): //5 -- 2.5 OR 5 -- 0.5 //fulltonone + fulltohalf
-				for(Lhearts = 0; Lhearts<dmg; Lhearts++){
-					LheartsArr[Lhearts] = lvl1hearts.getAt(preHP-1);
-					preHP -= 1;
-					if(preHP <= hp){
-						LheartsArr[Lhearts].animations.play('fulltohalf',5,false);
-					} else{
-						LheartsArr[Lhearts].animations.play('fulltonone',5,false);
-					}
-				}
-				break;
-			case (preHP%1 != 0 && dmg%1 == 0):// 4.5 -- 2 OR 3.5 -- 1 //halftonone + fulltonone + fulltohalf
-				for(Lhearts = 0; Lhearts<dmg+1 ; Lhearts++){
-					LheartsArr[Lhearts] = lvl1hearts.getAt(Math.round(preHP)-1);
-					preHP -= 1;
-					if(exception == 0){
-						LheartsArr[Lhearts].animations.play('halftonone',5,false);
-						if(dmg > 1){
-							exception = 1;
-							} else{
-								exception = 2;
-							}
-					} else if(exception == 1){
-						LheartsArr[Lhearts].animations.play('fulltonone',5,false);
-					} else if(exception == 2){
-						LheartsArr[Lhearts].animations.play('fulltohalf',5,false);
-					}
-					
-						
-				}
-				break;
-			case (preHP%1 != 0 && dmg%1 != 0)://3.5 -- 1.5 OR 4.5 -- 2.5 //halftonone + fulltonone
-				for(Lhearts = 0; Lhearts<dmg+1 ; Lhearts++){
-					LheartsArr[Lhearts] = lvl1hearts.getAt(Math.round(preHP)-1);
-					preHP -= 1;
-						if(exception == 0){
-							LheartsArr[Lhearts].animations.play('halftonone',5,false);
-							
-							exception = 1;
-							
-						} else if(exception == 1){
-							LheartsArr[Lhearts].animations.play('fulltonone',5,false);
-						}
-						if(preHP<=hp){
-								break;
-							}
-				}
-				break;
-			default:
-				break;
-		}
-		
-	},
 
 
 }

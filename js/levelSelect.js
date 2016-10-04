@@ -95,7 +95,6 @@ var levelSelectState = {
 		filter.update();
 	},
 	lvl1Start:function(){
-		lvlPlaying = 1;
-		game.state.start('intro0');
+		game.state.start('playlvl1');
 	}
 }

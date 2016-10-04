@@ -13,10 +13,6 @@ game.state.add('credits', creditsState);
 //CREDITS
 game.state.add('levelSelect', levelSelectState);
 //LVLSELECT
-game.state.add('intro0',intro0State);
-//INTRO0
-game.state.add('youdied',youdiedState);
-//YOUDIED
 game.state.add('playlvl1', playlvl1State);
 //LVL1
 
