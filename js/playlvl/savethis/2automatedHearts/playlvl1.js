@@ -1,13 +1,12 @@
 var player; //created
 var hp = 5;	//created
 var orihp = hp;
-var fullHP = 5;
 var lvl1hearts;
-var invulnerable = 2500; //invulnerable for 2.5 seconds
+var invulnerable = 2; //invulnerable for 2 seconds
 var isinvul = false;
 
 var bullet; //created
-var bulletdmg = 5;
+var bulletdmg = 1;
 var hombullet;
 var homdmg = 0.5;
 var homstart = 90; //original is 30
@@ -37,24 +36,13 @@ var playlvl1State = {
 		bgmusic.pause();
 		lvl1mus.play();
 		lvl1mus.loopFull(0.6);
-		isinvul = false;
 	},
 	create: function(){
-		hp = 5;
 		lvlstarttime = game.time.now;
 		var bg = game.add.tileSprite(0,0,450,750,'bg3');
 		this.game.world.setBounds(0,0,450,750);
 		bg.alpha = 0.4;
 		//background
-			
-		this.player = game.add.sprite(game.width/2, 550, 'player');
-		this.player.anchor.setTo(0.5);
-		this.player.animations.add('playermove',[0,1,2,3,4,5,6,7]);
-		this.player.animations.play('playermove',12,true);
-		this.player.enableBody = true;
-		game.physics.arcade.enable(this.player);
-		this.player.body.enable = true;
-		this.player.body.collideWorldBounds = true;	
 			
 		this.bullet = game.add.group();
 		this.bullet.enableBody = true;
@@ -76,7 +64,7 @@ var playlvl1State = {
 		this.laser.enableBody = true;
 		game.physics.arcade.enable(this.laser);
 		game.time.events.add(laserStrt, function(){
-			this.laser.createMultiple(999,'laser',this);
+			this.laser.createMultiple(1,'laser',this);
 			game.time.events.loop(laserStrt, this.addlaser, this);
 		},this);
 		
@@ -138,6 +126,14 @@ var playlvl1State = {
 		progtween.start();
 		//progress bar
 		
+		this.player = game.add.sprite(game.width/2, 550, 'player');
+		this.player.anchor.setTo(0.5);
+		this.player.animations.add('playermove',[0,1,2,3,4,5,6,7]);
+		this.player.animations.play('playermove',12,true);
+		this.player.enableBody = true;
+		game.physics.arcade.enable(this.player);
+		this.player.body.enable = true;
+		this.player.body.collideWorldBounds = true;
 		//player
 		
 		this.cursor = game.input.keyboard.createCursorKeys();
@@ -176,50 +172,34 @@ var playlvl1State = {
 },
 	update: function() {
 		this.movePlayer();
-		progressbar.updateCrop();
-		//prog crop updating
-		
+	
 		game.physics.arcade.overlap(this.player, this.bullet,this.damaged, this.addDmg1,null, this);
 		game.physics.arcade.overlap(this.player, this.hombullet, this.damaged,this.addDmg2, null, this);
 		game.physics.arcade.overlap(this.player, this.laser, this.damaged,this.addDmg3, null, this);
 		game.physics.arcade.overlap(this.laser, this.hombullet, this.killHombullet, null, this);
 		game.physics.arcade.overlap(this.laser, this.bullet, this.killBullet, null, this);
-		if(lvl1timer <= 0 ){
+		progressbar.updateCrop();
+		//prog crop updating
+		if(lvl1timer <= 0 || hp<=0){
 			this.levelreset();
-		} else if(hp<=0){
-			this.levelreset();
-			game.state.clearCurrentState();
-			game.state.start('youdied');
-		}
-	},	
-	killBullet: function(laser,bullet){
+		}	
+},	killBullet: function(laser,bullet){
 	bullet.kill();
-},	
-	killHombullet: function(laser,hombullet){
+},	killHombullet: function(laser,hombullet){
 	hombullet.kill();
 },
-	addDmg1: function(player,bullet){
+	addDmg1: function(){
 		dmg = bulletdmg;
-		bullet.kill();
 	},
-	addDmg2: function(player,bullet){
+	addDmg2: function(){
 		dmg = homdmg;
-		bullet.kill();
 	},
-	addDmg3: function(player,bullet){
+	addDmg3: function(){
 		dmg = laserDamage;
-		if(hp<=0){
-			bullet.enableBody = true;
-		} else{
-		bullet.enableBody = false;
-		}
 	},
 	levelreset: function(){
-		this.okBody();
 		lvl1timer = oritimer;
-		this.player.enableBody = true;
-		isinvul = false;
-		hp = fullHP;	
+		hp = orihp;	
 		lvl1mus.stop();
 		bgmusic.resume(0.6);
 		isinvul = false;
@@ -298,22 +278,7 @@ var playlvl1State = {
 						}
 },
 	damaged: function(player,bullet){
-		//bullet.kill();
-		if(isinvul == true || hp<=0){
-			return;
-		}
-		isinvul = true;
-		var blinkTimes =5 ;
-		
-		player.enableBody = false;
-		var blinkPlayer =	game.add.tween(player).to({alpha:0},(invulnerable/blinkTimes)/2,Phaser.Easing.Linear.None,true,0, blinkTimes-1 ,true);
-
-		game.time.events.add(invulnerable,function(){
-			player.alpha = 1.0;
-			player.enableBody = true;
-		isinvul = false;
-			},this)
-		
+		bullet.kill();
 		var LheartsArr = [];
 		var Lhearts = 0;
 		var preHP = hp;
