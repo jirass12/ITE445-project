@@ -166,7 +166,7 @@ var playlvl1State = {
 			hearts.animations.add('none',[2]);
 			hearts.animations.add('fulltonone',[0,2,0,2,0,2,0,2,0,2]);
 
-			hearts.animations.play('full',1,true);
+			hearts.animations.play('full',1,false);
 			lvl1hearts.add(hearts);
 		}
 		//hearts
@@ -355,24 +355,28 @@ var playlvl1State = {
 					}
 				}
 				break;
-			case (preHP%1 != 0 && dmg%1 == 0):// 4.5 -- 2 OR 3.5 -- 1 //halftonone + fulltonone + fulltohalf
-				for(Lhearts = 0; Lhearts<dmg+1 ; Lhearts++){
+			case (preHP%1 != 0 && dmg%1 == 0): // 4.5 -- 2 OR 3.5 -- 1 //halftonone + fulltonone + fulltohalf
+				for(Lhearts = 0; Lhearts<dmg+1 ; Lhearts++){ //heart no. 5,4,3
+					
 					LheartsArr[Lhearts] = lvl1hearts.getAt(Math.round(preHP)-1);
 					preHP -= 1;
-					if(exception == 0){
+										
+					if(exception == 0){ //
 						LheartsArr[Lhearts].animations.play('halftonone',5,false);
-						if(dmg > 1){
-							exception = 1;
+						
+							
+					} else if(exception == 1){
+						LheartsArr[Lhearts].animations.play('fulltonone',5,false);							
+							
+					} else if(exception == 2){
+						LheartsArr[Lhearts].animations.play('fulltohalf',5,false);
+					}	
+					if(dmg - Lhearts > 1){
+							exception = 1
 							} else{
 								exception = 2;
 							}
-					} else if(exception == 1){
-						LheartsArr[Lhearts].animations.play('fulltonone',5,false);
-					} else if(exception == 2){
-						LheartsArr[Lhearts].animations.play('fulltohalf',5,false);
-					}
 					
-						
 				}
 				break;
 			case (preHP%1 != 0 && dmg%1 != 0)://3.5 -- 1.5 OR 4.5 -- 2.5 //halftonone + fulltonone
