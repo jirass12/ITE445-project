@@ -8,10 +8,10 @@ var creditsState = {
 		var Ltext1 = game.add.text(game.width/2, 100, "Alvin Boworn", {font: '24px Arial', fill: '#ffffff'});
 		Ltext1.anchor.setTo(0.5,0.5);
 		
-		var Ltext2 = game.add.text(game.width/2, 150, "Varavetch", {font: '24px Arial', fill: '#ffffff'});
+		var Ltext2 = game.add.text(game.width/2, 150, "Varatvetch Entanin", {font: '24px Arial', fill: '#ffffff'});
 		Ltext2.anchor.setTo(0.5,0.5);
 		
-		var Ltext3 = game.add.text(game.width/2, 200, "Jirass", {font: '24px Arial', fill: '#ffffff'});
+		var Ltext3 = game.add.text(game.width/2, 200, "Jirass Kruaval", {font: '24px Arial', fill: '#ffffff'});
 		Ltext3.anchor.setTo(0.5,0.5);
 		
 		var Ltext4 = game.add.text(game.width/2, 270, "All images and assets used are", {font: '20px Arial', fill: '#ffffff'});

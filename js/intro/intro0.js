@@ -13,8 +13,7 @@ var intro0State = {
 		skip.events.onInputOut.add(this.out, this);
 		skip.events.onInputDown.add(this.down, this);
 		skip.events.onInputUp.add(this.toLevel, this);
-		typingEff.play(0);
-		typingEff.loopFull(0.6);
+
 		
 		typewriter = new Typewriter();
 		typewriter.init(this, {
@@ -24,6 +23,7 @@ var intro0State = {
 			fontSize: 28,
 			sound: null,
 			maxWidth: 350,
+			sound: typingEff,
 			text: intro0text
 		});
 		typewriter.start();
@@ -46,6 +46,7 @@ var intro0State = {
 	toLevel:function(){
 		typingEff.stop();
 		game.state.clearCurrentState();
+		typingEff.mute;
 		game.state.start('playlvl1');
 	}
 	

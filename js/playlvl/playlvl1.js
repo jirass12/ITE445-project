@@ -7,9 +7,9 @@ var invulnerable = 2500; //invulnerable for 2.5 seconds
 var isinvul = false;
 
 var bullet; //created
-var bulletdmg = 5;
+var bulletdmg = 0.5;
 var hombullet;
-var homdmg = 0.5;
+var homdmg = 1;
 var homstart = 90; //original is 30
 var laser; //dont forget to add blink before attack launches
 var laserDamage = 2;
@@ -199,14 +199,24 @@ var playlvl1State = {
 	hombullet.kill();
 },
 	addDmg1: function(player,bullet){
+		if(isinvul == true){
+			return;
+		}
 		dmg = bulletdmg;
 		bullet.kill();
+	
 	},
 	addDmg2: function(player,bullet){
+		if(isinvul == true){
+			return;
+		}
 		dmg = homdmg;
 		bullet.kill();
 	},
 	addDmg3: function(player,bullet){
+		if(isinvul == true){
+			return;
+		}
 		dmg = laserDamage;
 		if(hp<=0){
 			bullet.enableBody = true;
