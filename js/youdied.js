@@ -43,7 +43,7 @@ var youdiedState = {
 			var yesTxt  = game.add.bitmapText(game.camera.width/2 - 100, game.camera.height/2 + 200, 'introFont', 'Fight On', 30);
 			yesTxt.anchor.setTo(0.5,0.5);
 			yesTxt.inputEnabled = true;
-			yesTxt.events.onInputDown.add(this.toLevel);
+			yesTxt.events.onInputDown.add(this.toLevel,this);
 			var noTxt = game.add.bitmapText(game.camera.width/2 + 100, game.camera.height/2 + 200, 'introFont', 'Give In',30 );
 			noTxt.anchor.setTo(0.5,0.5);
 			noTxt.inputEnabled = true;
