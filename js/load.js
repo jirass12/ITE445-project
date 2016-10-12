@@ -50,7 +50,7 @@ var loadState = {
 	},
 	
 	create: function(){	
-		lvlsUnlocked = 2;
+		lvlsUnlocked = 1;
 		lvlPlaying = 0;
 		
 		bgmusic = game.add.audio('music');
