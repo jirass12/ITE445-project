@@ -31,10 +31,10 @@ var youdiedState = {
 	
 	},
 	createText:function(){
-		var introTxt = game.add.bitmapText(game.camera.width/2, game.camera.height/2 - 170, 'introFont', 'you', 24);
+		var introTxt = game.add.bitmapText(game.camera.width/2, game.camera.height/2 - 170, 'introFont', 'you', 35);
 		introTxt.anchor.setTo(0.5,0.5);
 		introTxt.alpha = 0.0;
-		var retryTxt = game.add.bitmapText(game.camera.width/2, game.camera.height/2 - 100, 'introFont', 'DIED', 84);
+		var retryTxt = game.add.bitmapText(game.camera.width/2, game.camera.height/2 - 50, 'introFont', 'DIED', 84);
 		retryTxt.anchor.setTo(0.5,0.5); 
 		retryTxt.alpha = 0.0;
 		var introTween = game.add.tween(introTxt).to({alpha: 1.0}, 2500,Phaser.Easing.Linear.None,true,0, 0 ,false);
@@ -43,11 +43,17 @@ var youdiedState = {
 			var yesTxt  = game.add.bitmapText(game.camera.width/2 - 100, game.camera.height/2 + 200, 'introFont', 'Fight On', 30);
 			yesTxt.anchor.setTo(0.5,0.5);
 			yesTxt.inputEnabled = true;
-			yesTxt.events.onInputDown.add(this.toLevel,this);
+			yesTxt.events.onInputOver.add(this.over, this);
+			yesTxt.events.onInputOut.add(this.out, this);
+			yesTxt.events.onInputDown.add(this.down, this);
+			yesTxt.events.onInputUp.add(this.toLevel,this);
 			var noTxt = game.add.bitmapText(game.camera.width/2 + 100, game.camera.height/2 + 200, 'introFont', 'Give In',30 );
 			noTxt.anchor.setTo(0.5,0.5);
 			noTxt.inputEnabled = true;
-			noTxt.events.onInputDown.add(this.toMenu, this);
+			noTxt.events.onInputOver.add(this.over, this);
+			noTxt.events.onInputOut.add(this.out, this);
+			noTxt.events.onInputDown.add(this.down, this);
+			noTxt.events.onInputUp.add(this.toMenu, this);
 		},this)
 	},
 	toLevel:function(){
@@ -57,10 +63,23 @@ var youdiedState = {
 			case 1:
 			game.state.start('playlvl1');
 			break;
+			case 2:
+			game.state.start('playlvl2');
+			break;
 			default:
 			break;
 		}
 		
+	},
+	over: function(item) {
+		item.fontSize += 5;
+	},
+
+	out: function(item) {
+		item.fontSize -= 5;
+	},
+	down: function(item) {
+		item.fontSize -= 5;
 	},
 	toMenu:function(){
 		bgmusic.resume();

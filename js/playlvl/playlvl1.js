@@ -29,8 +29,7 @@ var i;
 //^^ required Elements so far
 
 
-var text1; //temporary
-var text2; //temporary
+
 
 var playlvl1State = {
 	init: function(){
@@ -88,12 +87,13 @@ var playlvl1State = {
 			//container size is 237 by 80
 			exittomenu = game.add.sprite(game.width/2, 280,'exittomenu');
 			exittomenu.anchor.setTo(0.5);
-			
+
 			resume = game.add.sprite(game.width/2, 400, 'resume');
 			resume.anchor.setTo(0.5);
 			
-			paused_label = game.add.text(game.width/2, game.height/8, 'Paused', { font: '48px Arial', fill: '#ffffff' });	
+			paused_label = game.add.text(game.width/2, game.height/7 + 30, 'Paused', { font: '48px Arial', fill: '#ffffff' });	
 			paused_label.anchor.setTo(0.5);
+			
 			
 			bg.tint = 0xf05239;
 		});
@@ -144,12 +144,7 @@ var playlvl1State = {
 		this.cursor = game.input.keyboard.createCursorKeys();
 		//controls
 		
-		text1 = game.add.text(game.width/2, game.height/5,hp,{font: '84px Arial', fill: '#fff000'});
-		text1.anchor.setTo(0.5);
-		text1.visible = false;
-		text2 = game.add.text(370, 50,lvl1timer,{font: '40px Arial', fill: '#ffffff'});
-		text2.anchor.setTo(0.5);
-		text2.visible = false;
+		
 		//rendering OR fix
 		
 		var statsbar = game.add.sprite(game.width/2, 700, 'container2');
@@ -187,6 +182,10 @@ var playlvl1State = {
 		game.physics.arcade.overlap(this.laser, this.bullet, this.killBullet, null, this);
 		if(lvl1timer <= 0 ){
 			this.levelreset();
+			lvlsUnlocked = 2;
+			game.state.clearCurrentState();
+			game.state.start('youwin');
+
 		} else if(hp<=0){
 			this.levelreset();
 			game.state.clearCurrentState();
@@ -238,7 +237,7 @@ var playlvl1State = {
 	},
 	lvl1timer: function() {
 		lvl1timer -= 1;
-		text2.text -= 1;
+		
 },
 	addbullet: function() {
 		var bullet = this.bullet.getFirstDead();
@@ -292,9 +291,7 @@ var playlvl1State = {
 	},this);
 
 },	
-	noBody: function(){
-		this.player.enableBody = false;
-	},
+	
 	okBody: function(){
 	this.player.alpha = 1.0;
 	this.player.enableBody = true;
@@ -405,10 +402,22 @@ var playlvl1State = {
 		}
 		
 	},
-	render: function(){
-		game.debug.body(this.player);
+	imageover: function(item){
+		this.add.tween(item.scale).to({x:1.3,y:1.3},300, null, true,1,0,false);
+		item.tint = 0xffffff
+	},
+
+	imageout: function(item) {
+		this.add.tween(item.scale).to({x:1.0,y:1.0},300,null,true,1,0,false);
+	},
+
+	imagedown: function(item) {
+		item.tint = 0xff0000;
+	},
+	// render: function(){
+	// 	game.debug.body(this.player);
 		
-	}
+	// }
 
 
 }

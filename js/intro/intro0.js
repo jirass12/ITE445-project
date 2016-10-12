@@ -4,7 +4,9 @@ var intro0State = {
 	init:function(){
 		bgmusic.pause();
 	},
-	create: function(){
+	create: function(){	
+		intro0showed = true;
+
 		game.stage.backgroundColor = "#000000";
 		var skip = game.add.text(game.camera.width - 50,game.camera.height - 50,"Skip",{font: '30px Arial', fill: '#ffffff'})
 		skip.anchor.setTo(0.5,0.5);

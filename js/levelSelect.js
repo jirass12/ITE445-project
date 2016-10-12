@@ -15,6 +15,7 @@ var levelSelectState = {
 		back.anchor.setTo(0.5,0.5);		
 		back.inputEnabled = true;
 		
+		
 	//	var door1 = game.add.sprite(game.camera.width/2, game.camera.height/2,'door');
 	//	door1.anchor.setTo(0.5);
 	//	var level = game.add.sprite(game.width/2, game.height/3,'fml1');
@@ -32,7 +33,7 @@ var levelSelectState = {
 		
 		
 		var no1 = game.add.sprite((game.width/2 - 100),game.height*2/8,'no1');
-		no1.tint = 0x000000;
+		// no1.tint = 0x000000;
 		no1.anchor.setTo(0.5);
 		no1.inputEnabled = true;
 		no1.events.onInputOver.add(this.imageover, this);
@@ -43,24 +44,32 @@ var levelSelectState = {
 		var no2 = game.add.sprite((game.width/2 + 100),game.height*2.5/8,'no2');
 		no2.tint = 0x000000;
 		no2.anchor.setTo(0.5);
-		no2.inputEnabled = true;
+		no2.inputEnabled = false;
 		no2.events.onInputOver.add(this.imageover, this);
 		no2.events.onInputOut.add(this.imageout, this);
 		no2.events.onInputDown.add(this.imagedown, this);
+		no2.events.onInputUp.add(this.lvl2Start,this);
 		
 		var no3 = game.add.sprite((game.width/2)-100,game.height*1/2,'no3');
 		no3.anchor.setTo(0.5);
 		no3.tint = 0x000000;
-		no3.inputEnabled = true;
-		no3.events.onInputOver.add(this.imageover, this);
+		no3.inputEnabled = false;
+		
+//		levelE.inputEnabled = true;no3.events.onInputOver.add(this.imageover, this);
 		no3.events.onInputOut.add(this.imageout, this);
 		no3.events.onInputDown.add(this.imagedown, this);
-//		levelE.inputEnabled = true;
 //		levelE.events.onInputOver.add(this.imageover, this);
 //		levelE.events.onInputOut.add(this.imageout, this);
 //		levelE.events.onInputDown.add(this.imagedown, this);
 //		levelE.anchor.setTo(0.5);
+		if(lvlsUnlocked >= 2){
+			no2.inputEnabled = true;
+			no2.tint = 0xffffff;
+		} else{
+			no2.inputEnabled = false;
+		}
 	},
+	
 	
 	imageover: function(item){
 		this.add.tween(item.scale).to({x:1.3,y:1.3},300, null, true,1,0,false);
@@ -69,7 +78,6 @@ var levelSelectState = {
 
 	imageout: function(item) {
 		this.add.tween(item.scale).to({x:1.0,y:1.0},300,null,true,1,0,false);
-		item.tint = 0x000000;
 	},
 
 	imagedown: function(item) {
@@ -96,6 +104,14 @@ var levelSelectState = {
 	},
 	lvl1Start:function(){
 		lvlPlaying = 1;
-		game.state.start('intro0');
-	}
+		
+			game.state.start("playlvl1");
+		
+	},
+	lvl2Start:function(){
+		lvlPlaying = 2;
+		game.state.start("playlvl2");
+		
+	},
+
 }

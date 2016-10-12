@@ -39,10 +39,18 @@ var loadState = {
 		game.load.audio('music',['assets/mus_core.ogg']);
 		game.load.audio('typingEff',['assets/font1/pencilsketching.mp3']);
 		game.load.audio('deathlaugh',['assets/deathlaugh.ogg']);
+		//
+		game.load.image('icebullet','assets/icebullet1.png');
+		game.load.image('machine','assets/1.png');
+		game.load.image('bg4','assets/ice.jpg');
+		game.load.image('alert2','assets/alert2.png');
+		game.load.image('icelaser','assets/icelaser.png');
+		
+		
 	},
 	
 	create: function(){	
-		lvlsUnlocked = 1;
+		lvlsUnlocked = 2;
 		lvlPlaying = 0;
 		
 		bgmusic = game.add.audio('music');

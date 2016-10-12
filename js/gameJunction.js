@@ -17,7 +17,11 @@ game.state.add('intro0',intro0State);
 //INTRO0
 game.state.add('youdied',youdiedState);
 //YOUDIED
+game.state.add('youwin',youwinState);
+//YOUWIN
 game.state.add('playlvl1', playlvl1State);
 //LVL1
+game.state.add('playlvl2', playlvl2State);
+//LVL2
 
 game.state.start('boot');
