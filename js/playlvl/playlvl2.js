@@ -119,12 +119,7 @@ var playlvl2State = {
 		this.cursor = game.input.keyboard.createCursorKeys();
 		//controls
 		
-		text1 = game.add.text(game.width/2, game.height/5,hp,{font: '84px Arial', fill: '#fff000'});
-		text1.anchor.setTo(0.5);
-		text1.visible = false;
-		text2 = game.add.text(370, 50,lvl1timer,{font: '40px Arial', fill: '#ffffff'});
-		text2.anchor.setTo(0.5);
-		text2.visible = false;
+	
 		//rendering OR fix
 		
 		var statsbar = game.add.sprite(game.width/2, 700, 'container2');
@@ -157,12 +152,12 @@ var playlvl2State = {
 		
 		game.physics.arcade.overlap(this.player, this.bullet,this.damaged, this.addDmg1,null, this);
 		game.physics.arcade.overlap(this.player, this.hombullet, this.damaged,this.addDmg2, null, this);
-		game.physics.arcade.overlap(this.player, this.laser, this.damaged,this.addDmg3, null, this);
+		// game.physics.arcade.overlap(this.player, this.laser, this.damaged,this.addDmg3, null, this);
 		game.physics.arcade.overlap(this.player, this.icebullet,this.damaged, this.addDmg1, null, this);
 		
 		//laser kills enemies
-		game.physics.arcade.overlap(this.laser, this.hombullet, this.killHombullet, null, this);
-		game.physics.arcade.overlap(this.laser, this.bullet, this.killBullet, null, this);
+		// game.physics.arcade.overlap(this.laser, this.hombullet, this.killHombullet, null, this);
+		// game.physics.arcade.overlap(this.laser, this.bullet, this.killBullet, null, this);
 		
 		game.physics.arcade.overlap(this.player, this.icelaser,this.icelaserDmg, null, this);
 		
@@ -204,12 +199,12 @@ icelaserDmg: function(player,icelaser){
 		
 	},
 	
-	killBullet: function(laser,bullet){
-	bullet.kill();
-},	
-	killHombullet: function(laser,hombullet){
-	hombullet.kill();
-},
+// 	killBullet: function(laser,bullet){
+// 	bullet.kill();
+// },	
+// 	killHombullet: function(laser,hombullet){
+// 	hombullet.kill();
+// },
 	addDmg1: function(player,bullet){
 		if(isinvul == true){
 			return;
@@ -225,17 +220,17 @@ icelaserDmg: function(player,icelaser){
 		dmg = homdmg;
 		bullet.kill();
 	},
-	addDmg3: function(player,bullet){
-		if(isinvul == true){
-			return;
-		}
-		dmg = laserDamage;
-		if(hp<=0){
-			bullet.enableBody = true;
-		} else{
-		bullet.enableBody = false;
-		}
-	},
+	// addDmg3: function(player,bullet){
+	// 	if(isinvul == true){
+	// 		return;
+	// 	}
+	// 	dmg = laserDamage;
+	// 	if(hp<=0){
+	// 		bullet.enableBody = true;
+	// 	} else{
+	// 	bullet.enableBody = false;
+	// 	}
+	// },
 	levelreset: function(){
 		this.okBody();
 		lvl1timer = oritimer;
@@ -249,7 +244,7 @@ icelaserDmg: function(player,icelaser){
 	},
 	lvl1timer: function() {
 		lvl1timer -= 1;
-		text2.text -= 1;
+		
 },
 	addbullet: function() {
 		var bullet = this.bullet.getFirstDead();
@@ -287,12 +282,18 @@ icelaserDmg: function(player,icelaser){
 		if(!icelaser) { //protection clash
 			return;
 		}
+		laserEff.play();
 		icelaser.anchor.setTo(1);
 		icelaser.reset(game.rnd.integerInRange(80,460) , 0);
 		icelaser.body.velocity.y = 900;
 		
 		icelaser.checkWorldBounds = true;
 		icelaser.outOfBoundsKill = true;
+
+		game.time.events.add(laserDur,function(){
+			
+			laserEff.stop();
+		},this);
 		
 },
  	addalert2: function() {	
@@ -318,9 +319,6 @@ icelaserDmg: function(player,icelaser){
 		icebullet.outOfBoundsKill = true;	
 	}
   },
-	noBody: function(){
-		this.player.enableBody = false;
-	},
 	okBody: function(){
 	this.player.alpha = 1.0;
 	this.player.enableBody = true;

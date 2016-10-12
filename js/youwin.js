@@ -24,6 +24,7 @@ var youwinState = {
 		},this)
 	},
 	toLevel:function(){
+		bgmusic.resume();
 		game.state.start('levelSelect');
 		
 	},
