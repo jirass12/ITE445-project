@@ -1,4 +1,4 @@
-var game = new Phaser.Game(450, 750, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(450, 750);
 
 //game.state.add(all the js files we'll need later on)
 game.state.add('boot', bootState);

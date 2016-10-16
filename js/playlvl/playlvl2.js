@@ -7,12 +7,21 @@ var playlvl2State = {
 		isinvul = false;
 	},
 	create: function(){
+		this.cursor = game.input.keyboard.createCursorKeys(); game.input.keyboard.addKeyCapture([
+	Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT]); this.ad = {
+		left: game.input.keyboard.addKey(Phaser.Keyboard.A), 
+		right: game.input.keyboard.addKey(Phaser.Keyboard.D)
+		};
 		hp = 5;
 		lvlstarttime = game.time.now;
 		var bg = game.add.tileSprite(0,0,450,750,'bg4');
 		this.game.world.setBounds(0,0,450,750);
 		bg.alpha = 0.4;
 		//background
+		
+					if (!game.device.desktop) {
+this.addMobileInputs();
+}
 			
 		this.player = game.add.sprite(game.width/2, 550, 'player');
 		this.player.anchor.setTo(0.5);
@@ -119,7 +128,12 @@ var playlvl2State = {
 		this.cursor = game.input.keyboard.createCursorKeys();
 		//controls
 		
-	
+		text1 = game.add.text(game.width/2, game.height/5,hp,{font: '84px Arial', fill: '#fff000'});
+		text1.anchor.setTo(0.5);
+		text1.visible = false;
+		text2 = game.add.text(370, 50,lvl1timer,{font: '40px Arial', fill: '#ffffff'});
+		text2.anchor.setTo(0.5);
+		text2.visible = false;
 		//rendering OR fix
 		
 		var statsbar = game.add.sprite(game.width/2, 700, 'container2');
@@ -152,12 +166,8 @@ var playlvl2State = {
 		
 		game.physics.arcade.overlap(this.player, this.bullet,this.damaged, this.addDmg1,null, this);
 		game.physics.arcade.overlap(this.player, this.hombullet, this.damaged,this.addDmg2, null, this);
-		// game.physics.arcade.overlap(this.player, this.laser, this.damaged,this.addDmg3, null, this);
+		game.physics.arcade.overlap(this.player, this.laser, this.damaged,this.addDmg3, null, this);
 		game.physics.arcade.overlap(this.player, this.icebullet,this.damaged, this.addDmg1, null, this);
-		
-		//laser kills enemies
-		// game.physics.arcade.overlap(this.laser, this.hombullet, this.killHombullet, null, this);
-		// game.physics.arcade.overlap(this.laser, this.bullet, this.killBullet, null, this);
 		
 		game.physics.arcade.overlap(this.player, this.icelaser,this.icelaserDmg, null, this);
 		
@@ -199,12 +209,12 @@ icelaserDmg: function(player,icelaser){
 		
 	},
 	
-// 	killBullet: function(laser,bullet){
-// 	bullet.kill();
-// },	
-// 	killHombullet: function(laser,hombullet){
-// 	hombullet.kill();
-// },
+	killBullet: function(laser,bullet){
+	bullet.kill();
+},	
+	killHombullet: function(laser,hombullet){
+	hombullet.kill();
+},
 	addDmg1: function(player,bullet){
 		if(isinvul == true){
 			return;
@@ -220,17 +230,17 @@ icelaserDmg: function(player,icelaser){
 		dmg = homdmg;
 		bullet.kill();
 	},
-	// addDmg3: function(player,bullet){
-	// 	if(isinvul == true){
-	// 		return;
-	// 	}
-	// 	dmg = laserDamage;
-	// 	if(hp<=0){
-	// 		bullet.enableBody = true;
-	// 	} else{
-	// 	bullet.enableBody = false;
-	// 	}
-	// },
+	addDmg3: function(player,bullet){
+		if(isinvul == true){
+			return;
+		}
+		dmg = laserDamage;
+		if(hp<=0){
+			bullet.enableBody = true;
+		} else{
+		bullet.enableBody = false;
+		}
+	},
 	levelreset: function(){
 		this.okBody();
 		lvl1timer = oritimer;
@@ -244,7 +254,36 @@ icelaserDmg: function(player,icelaser){
 	},
 	lvl1timer: function() {
 		lvl1timer -= 1;
-		
+		text2.text -= 1;
+},
+
+addMobileInputs: function() {
+	this.moveLeft = false;
+	this.moveRight = false;
+	var leftButton = game.add.sprite(10, 60, 'leftButton'); leftButton.inputEnabled = true;
+	leftButton.alpha = 0;
+	leftButton.events.onInputOver.add(this.setLeftTrue, this); leftButton.events.onInputOut.add(this.setLeftFalse, this); leftButton.events.onInputDown.add(this.setLeftTrue, this); leftButton.events.onInputUp.add(this.setLeftFalse, this);
+	var rightButton = game.add.sprite(250, 60, 'rightButton'); rightButton.inputEnabled = true; rightButton.alpha = 0; rightButton.events.onInputOver.add(this.setRightTrue, this); rightButton.events.onInputOut.add(this.setRightFalse, this); rightButton.events.onInputDown.add(this.setRightTrue, this); rightButton.events.onInputUp.add(this.setRightFalse, this);
+},
+
+	setLeftTrue: function() { this.moveLeft = true;
+},
+	setLeftFalse: function() { this.moveLeft = false;
+},
+	setRightTrue: function() { this.moveRight = true;
+},
+	setRightFalse: function() { this.moveRight = false;
+},
+
+orientationChange: function() {
+	if (game.scale.isPortrait) {
+		game.paused = true;
+	this.rotateLabel.text = 'rotate your device in landscape';
+}
+	else {
+	game.paused = false;
+	this.rotateLabel.text = '';
+}
 },
 	addbullet: function() {
 		var bullet = this.bullet.getFirstDead();
@@ -282,18 +321,12 @@ icelaserDmg: function(player,icelaser){
 		if(!icelaser) { //protection clash
 			return;
 		}
-		laserEff.play();
 		icelaser.anchor.setTo(1);
 		icelaser.reset(game.rnd.integerInRange(80,460) , 0);
 		icelaser.body.velocity.y = 900;
 		
 		icelaser.checkWorldBounds = true;
 		icelaser.outOfBoundsKill = true;
-
-		game.time.events.add(laserDur,function(){
-			
-			laserEff.stop();
-		},this);
 		
 },
  	addalert2: function() {	
@@ -319,21 +352,29 @@ icelaserDmg: function(player,icelaser){
 		icebullet.outOfBoundsKill = true;	
 	}
   },
+	noBody: function(){
+		this.player.enableBody = false;
+	},
 	okBody: function(){
 	this.player.alpha = 1.0;
 	this.player.enableBody = true;
 	isinvul = false;
 	
 },
-	movePlayer: function(){
-
-			if (this.cursor.left.isDown){
-					this.player.body.velocity.x = -300;			
-				}	else if (this.cursor.right.isDown){
-						this.player.body.velocity.x = 300;
-					}	else {
-							this.player.body.velocity.x = 0;
-						}
+movePlayer: function(){
+			if (game.input.totalActivePointers == 0){
+		this.moveLeft = false; this.moveRight = false;
+		}
+		if (this.cursor.left.isDown || this.ad.left.isDown
+			|| this.moveLeft) { this.player.body.velocity.x = -250; this.player.animations.play('left');
+}
+	else if (this.cursor.right.isDown || this.ad.right.isDown || this.moveRight) {
+	this.player.body.velocity.x = 250; this.player.animations.play('right');
+}
+	else {
+	this.player.body.velocity.x = 0;
+	}
+	
 },
 	damaged: function(player,bullet){
 		//bullet.kill();
@@ -445,5 +486,16 @@ laserdestroyicebullet: function(icelaser,icebullet) {
 	icebullet.destroy();
 
 },
+	imageover: function(item){
+		this.add.tween(item.scale).to({x:1.3,y:1.3},300, null, true,1,0,false);
+		item.tint = 0xffffff
+	},
 
+	imageout: function(item) {
+		this.add.tween(item.scale).to({x:1.0,y:1.0},300,null,true,1,0,false);
+	},
+
+	imagedown: function(item) {
+		item.tint = 0xff0000;
+	},
 }

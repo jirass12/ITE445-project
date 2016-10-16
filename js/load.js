@@ -46,6 +46,9 @@ var loadState = {
 		game.load.image('alert2','assets/alert2.png');
 		game.load.image('icelaser','assets/icelaser.png');
 		
+game.load.image('rightButton', 'assets/rightButton.png');
+game.load.image('leftButton', 'assets/leftButton.png');
+		
 		
 	},
 	

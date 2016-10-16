@@ -39,13 +39,20 @@ var playlvl1State = {
 		isinvul = false;
 	},
 	create: function(){
+		this.cursor = game.input.keyboard.createCursorKeys(); game.input.keyboard.addKeyCapture([
+	Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT]); this.ad = {
+		left: game.input.keyboard.addKey(Phaser.Keyboard.A), 
+		right: game.input.keyboard.addKey(Phaser.Keyboard.D)
+		};
 		hp = 5;
 		lvlstarttime = game.time.now;
 		var bg = game.add.tileSprite(0,0,450,750,'bg3');
 		this.game.world.setBounds(0,0,450,750);
 		bg.alpha = 0.4;
 		//background
-			
+			if (!game.device.desktop) {
+this.addMobileInputs();
+}
 		this.player = game.add.sprite(game.width/2, 550, 'player');
 		this.player.anchor.setTo(0.5);
 		this.player.animations.add('playermove',[0,1,2,3,4,5,6,7]);
@@ -93,7 +100,6 @@ var playlvl1State = {
 			
 			paused_label = game.add.text(game.width/2, game.height/7 + 30, 'Paused', { font: '48px Arial', fill: '#ffffff' });	
 			paused_label.anchor.setTo(0.5);
-			
 			
 			bg.tint = 0xf05239;
 		});
@@ -239,6 +245,35 @@ var playlvl1State = {
 		lvl1timer -= 1;
 		
 },
+addMobileInputs: function() {
+	this.moveLeft = false;
+	this.moveRight = false;
+	var leftButton = game.add.sprite(10, 60, 'leftButton'); leftButton.inputEnabled = true;
+	leftButton.alpha = 0;
+	leftButton.events.onInputOver.add(this.setLeftTrue, this); leftButton.events.onInputOut.add(this.setLeftFalse, this); leftButton.events.onInputDown.add(this.setLeftTrue, this); leftButton.events.onInputUp.add(this.setLeftFalse, this);
+	var rightButton = game.add.sprite(250, 60, 'rightButton'); rightButton.inputEnabled = true; rightButton.alpha = 0; rightButton.events.onInputOver.add(this.setRightTrue, this); rightButton.events.onInputOut.add(this.setRightFalse, this); rightButton.events.onInputDown.add(this.setRightTrue, this); rightButton.events.onInputUp.add(this.setRightFalse, this);
+},
+
+	setLeftTrue: function() { this.moveLeft = true;
+},
+	setLeftFalse: function() { this.moveLeft = false;
+},
+	setRightTrue: function() { this.moveRight = true;
+},
+	setRightFalse: function() { this.moveRight = false;
+},
+
+orientationChange: function() {
+	if (game.scale.isPortrait) {
+		game.paused = true;
+	this.rotateLabel.text = 'rotate your device in landscape';
+}
+	else {
+	game.paused = false;
+	this.rotateLabel.text = '';
+}
+},
+
 	addbullet: function() {
 		var bullet = this.bullet.getFirstDead();
 		if(!bullet) {
@@ -299,14 +334,19 @@ var playlvl1State = {
 	
 },
 	movePlayer: function(){
-
-			if (this.cursor.left.isDown){
-					this.player.body.velocity.x = -300;			
-				}	else if (this.cursor.right.isDown){
-						this.player.body.velocity.x = 300;
-					}	else {
-							this.player.body.velocity.x = 0;
-						}
+			if (game.input.totalActivePointers == 0){
+		this.moveLeft = false; this.moveRight = false;
+		}
+		if (this.cursor.left.isDown || this.ad.left.isDown
+			|| this.moveLeft) { this.player.body.velocity.x = -250; this.player.animations.play('left');
+}
+	else if (this.cursor.right.isDown || this.ad.right.isDown || this.moveRight) {
+	this.player.body.velocity.x = 250; this.player.animations.play('right');
+}
+	else {
+	this.player.body.velocity.x = 0;
+	}
+	
 },
 	damaged: function(player,bullet){
 		//bullet.kill();
