@@ -105,7 +105,7 @@ var levelSelectState = {
 	lvl1Start:function(){
 		lvlPlaying = 1;
 		
-			game.state.start("playlvl1");
+			game.state.start("intro0");
 		
 	},
 	lvl2Start:function(){
