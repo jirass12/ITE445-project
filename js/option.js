@@ -23,7 +23,7 @@ preload: function(){
 
 		//-----------mute and play music-----------------------------------------
 
-		mutemusic = game.add.text(game.width / 2, 250, "MUTE MUSIC", {font: '40px Arial', fill: '#ffffff' });
+		mutemusic = game.add.text(game.width / 2, 350, "MUTE SOUND", {font: '40px Arial', fill: '#ffffff' });
 		mutemusic.anchor.setTo(0.5,0.5);
 		mutemusic.inputEnabled = true;
 		mutemusic.visible = false;
@@ -34,7 +34,7 @@ preload: function(){
 		mutemusic.events.onInputDown.add(this.down, this);
 		mutemusic.events.onInputUp.add(this.mutemusic, this);
 		
-		playmusic = game.add.text(game.width / 2, 250, "PLAY MUSIC", {font: '40px Arial', fill: '#ffffff' });
+		playmusic = game.add.text(game.width / 2, 350, "PLAY SOUND", {font: '40px Arial', fill: '#ffffff' });
 		playmusic.anchor.setTo(0.5,0.5);
 		playmusic.inputEnabled = true;
 		playmusic.visible = false;
@@ -54,27 +54,8 @@ preload: function(){
 		playmusic.events.onInputUp.add(this.playmusic, this);
 		//---------------------------------------------------------------------------------
 
-		//----------------------------mute and play effect ---------------------------------
-		muteeffect = game.add.text(game.width / 2, 400, "MUTE EFFECT", {font: '40px Arial', fill: '#ffffff' });
-		muteeffect.anchor.setTo(0.5,0.5);
-		muteeffect.inputEnabled = true;
-		muteeffect.visible = true;
-
-		muteeffect.events.onInputOver.add(this.over, this);
-		muteeffect.events.onInputOut.add(this.out, this);
-		muteeffect.events.onInputDown.add(this.down, this);
-		muteeffect.events.onInputUp.add(this.muteeffect, this);
-
-		playeffect = game.add.text(game.width / 2, 400, "PLAY EFFECT", {font: '40px Arial', fill: '#ffffff' });
-		playeffect.anchor.setTo(0.5,0.5);
-		playeffect.inputEnabled = true;
-		playeffect.visible = false;
-
-		playeffect.events.onInputOver.add(this.over, this);
-		playeffect.events.onInputOut.add(this.out, this);
-		playeffect.events.onInputDown.add(this.down, this);
-		playeffect.events.onInputUp.add(this.playeffect, this);
-		//---------------------------------------------------------------------------------
+		
+		
 
 
 		//------------------ back to main menu ---------------------------------------------
@@ -113,6 +94,9 @@ preload: function(){
 		mutemusic.fontSize = 40;
 		bgmusic.mute = true;
 		lvl1mus.mute = true;
+		typingEff.mute = true;
+		laserEff.mute = true;
+		deathlaugh.mute = true;
 		mutemusic.visible = false;
 		playmusic.visible = true;
 	},
@@ -121,34 +105,14 @@ preload: function(){
 		playmusic.fontSize = 40;
 		bgmusic.mute = false;
 		lvl1mus.mute = false;
+		typingEff.mute = false;
+		laserEff.mute = false;
+		deathlaugh.mute = false;
 		playmusic.visible = false;
 		mutemusic.visible = true;
 	},
 
-	muteeffect: function(muteeffect) {
-		// this line for mute effect (no effect yet)
-		muteeffect.fontSize = 40;
-		muteeffect.visible = false;
-		playeffect.visible = true;
-	},
 
-	playeffect: function(playeffect) {
-		//this line for play effect (no effect yet)
-		playeffect.fontSize = 40;
-		playeffect.visible = false;
-		muteeffect.visible = true;
-	},
-	update: function() {
-		
-		// if(bgmusic.mute == true){
-		// 	mutemusic.visible = false;
-		// 	playmusic.visible = true;
-		// 	} else if(bgmusic.mute == false){
-		// 		mutemusic.visible = true;
-		// 		playmusic.visible = false;
-		// 	}
-		
-},
 
 
 }
