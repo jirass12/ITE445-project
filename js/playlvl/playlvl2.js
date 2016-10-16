@@ -1,7 +1,7 @@
 var invul2IceLaserDur = 500;
 var playlvl2State = {
 	init: function(){
-		bgmusic.pause();
+		bgmusic.stop();
 		lvl1mus.play();
 		lvl1mus.loopFull(0.6);
 		isinvul = false;
@@ -98,7 +98,7 @@ this.addMobileInputs();
 						lvl1timer = oritimer;
 						hp = orihp;	
 						lvl1mus.stop();
-						bgmusic.resume(0.6);
+						bgmusic.play();
 						bg.tint = 0xffffff;
 						isinvul = false;
 				} else if(event.x > x1 && event.x < x2 && event.y > y3 && event.y < y4){

@@ -20,7 +20,7 @@ var dmg;
 
 var progressbar; 
 var progresscrop;
-var lvl1timer = 90; //90 seconds
+var lvl1timer = 20; //90 seconds
 var oritimer = lvl1timer;
 var pause_label;
 
@@ -33,7 +33,7 @@ var i;
 
 var playlvl1State = {
 	init: function(){
-		bgmusic.pause();
+		bgmusic.stop();
 		lvl1mus.play();
 		lvl1mus.loopFull(0.6);
 		isinvul = false;
@@ -120,7 +120,7 @@ this.addMobileInputs();
 						lvl1timer = oritimer;
 						hp = orihp;	
 						lvl1mus.stop();
-						bgmusic.resume(0.6);
+						bgmusic.play();
 						bg.tint = 0xffffff;
 						isinvul = false;
 				} else if(event.x > x1 && event.x < x2 && event.y > y3 && event.y < y4){

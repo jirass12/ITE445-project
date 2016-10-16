@@ -1,6 +1,6 @@
 var youdiedState = {
 	init: function(){
-		bgmusic.pause();
+		
 	},
 	create: function(){
 	this.playerDie = game.add.sprite(game.camera.width/2,game.camera.height/2,'player',0);
@@ -82,7 +82,7 @@ var youdiedState = {
 		item.fontSize -= 5;
 	},
 	toMenu:function(){
-		bgmusic.resume();
+		bgmusic.play();
 		game.state.start('menu');
 	}
 }

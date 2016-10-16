@@ -1,6 +1,6 @@
 var youwinState = {
 	init: function(){
-		bgmusic.pause();
+		
 	},
 	
 	create:function(){
@@ -24,6 +24,7 @@ var youwinState = {
 		},this)
 	},
 	toLevel:function(){
+		bgmusic.play();
 		game.state.start('levelSelect');
 		
 	},
