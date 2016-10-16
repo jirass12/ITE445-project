@@ -34,11 +34,11 @@ var loadState = {
 		game.load.image('laser','assets/lavalaser.png');
 		game.load.image('alert','assets/alert.png');
 		
-		game.load.audio('laserEff',['assets/laser.ogg']);
-		game.load.audio('lvl1mus',['assets/mus_ruins.ogg']);
-		game.load.audio('music',['assets/mus_core.ogg']);
-		game.load.audio('typingEff',['assets/font1/pencilsketching.mp3']);
-		game.load.audio('deathlaugh',['assets/deathlaugh.ogg']);
+		game.load.audio('laserEff',['assets/laser.ogg' , 'assets/laser.mp3']);
+		game.load.audio('lvl1mus',['assets/mus_ruins.ogg', 'assets/mus_ruins.mp3']);
+		game.load.audio('music',['assets/mus_core.ogg' , 'assets/mus_core.mp3']);
+		game.load.audio('typingEff',['assets/font1/pencilsketching.mp3' , 'assets/font1/pencilsketching.ogg']);
+		game.load.audio('deathlaugh',['assets/deathlaugh.ogg' , 'assets/deathlaugh.mp3']);
 		//
 		game.load.image('icebullet','assets/icebullet1.png');
 		game.load.image('machine','assets/1.png');
