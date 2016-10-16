@@ -20,7 +20,7 @@ var dmg;
 
 var progressbar; 
 var progresscrop;
-var lvl1timer = 20; //90 seconds
+var lvl1timer = 90; //90 seconds
 var oritimer = lvl1timer;
 var pause_label;
 
